@@ -45,49 +45,49 @@ def player_data(spark):
                     else "Striker"
                     end as player_position
                 , lead(coalesce(pd.total_points, 0)) over(partition by pd.season_start_year, pi.code order by pd.kickoff_time) as target
-                , pd.minutes
+                , coalesce(pd.minutes, 0) as minutes
                 , pd.total_points
-                , pd.total_points / pd.minutes as total_points_per_minute
+                , pd.total_points / coalesce(pd.minutes, 0) as total_points_per_minute
                 , pd.goals_scored
-                , pd.goals_scored / pd.minutes as goals_scored_per_minute
+                , pd.goals_scored / coalesce(pd.minutes, 0) as goals_scored_per_minute
                 , pd.assists
-                , pd.assists / pd.minutes as assists_per_minute
+                , pd.assists / coalesce(pd.minutes, 0) as assists_per_minute
                 , pd.clean_sheets
                 , pd.goals_conceded
-                , pd.goals_conceded / pd.minutes as goals_conceded_per_minute
+                , pd.goals_conceded / coalesce(pd.minutes, 0) as goals_conceded_per_minute
                 , pd.own_goals
-                , pd.own_goals / pd.minutes as own_goals_per_minute
+                , pd.own_goals / coalesce(pd.minutes, 0) as own_goals_per_minute
                 , pd.penalties_saved
-                , pd.penalties_saved / pd.minutes as penalties_saved_per_minute
+                , pd.penalties_saved / coalesce(pd.minutes, 0) as penalties_saved_per_minute
                 , pd.saves
-                , pd.saves / pd.minutes as saves_per_minute
+                , pd.saves / coalesce(pd.minutes, 0) as saves_per_minute
                 , pd.penalties_missed
-                , pd.penalties_missed / pd.minutes as penalties_missed_per_minute
+                , pd.penalties_missed / coalesce(pd.minutes, 0) as penalties_missed_per_minute
                 , pd.yellow_cards
-                , pd.yellow_cards / pd.minutes as yellow_cards_per_minute
+                , pd.yellow_cards / coalesce(pd.minutes, 0) as yellow_cards_per_minute
                 , pd.red_cards
-                , pd.red_cards / pd.minutes as red_cards_per_minute
+                , pd.red_cards / coalesce(pd.minutes, 0) as red_cards_per_minute
                 , pd.bonus
-                , pd.bonus / pd.minutes as bonus_per_minute
+                , pd.bonus / coalesce(pd.minutes, 0) as bonus_per_minute
                 , pd.bps
-                , pd.bps / pd.minutes as bps_per_minute
+                , pd.bps / coalesce(pd.minutes, 0) as bps_per_minute
                 , pd.influence
-                , pd.influence / pd.minutes as influence_per_minute
+                , pd.influence / coalesce(pd.minutes, 0) as influence_per_minute
                 , pd.creativity
-                , pd.creativity / pd.minutes as creativity_per_minute
+                , pd.creativity / coalesce(pd.minutes, 0) as creativity_per_minute
                 , pd.threat
-                , pd.threat / pd.minutes as threat_per_minute
+                , pd.threat / coalesce(pd.minutes, 0) as threat_per_minute
                 , pd.ict_index
-                , pd.ict_index / pd.minutes as ict_index_per_minute
+                , pd.ict_index / coalesce(pd.minutes, 0) as ict_index_per_minute
                 , pd.starts
                 , pd.expected_goals
-                , pd.expected_goals / pd.minutes as expected_goals_per_minute
+                , pd.expected_goals / coalesce(pd.minutes, 0) as expected_goals_per_minute
                 , pd.expected_assists
-                , pd.expected_assists / pd.minutes as expected_assists_per_minute
+                , pd.expected_assists / coalesce(pd.minutes, 0) as expected_assists_per_minute
                 , pd.expected_goal_involvements
-                , pd.expected_goal_involvements / pd.minutes as expected_goal_involvements_per_minute
+                , pd.expected_goal_involvements / coalesce(pd.minutes, 0) as expected_goal_involvements_per_minute
                 , pd.expected_goals_conceded
-                , pd.expected_goals_conceded / pd.minutes as expected_goals_conceded_per_minute
+                , pd.expected_goals_conceded / coalesce(pd.minutes, 0) as expected_goals_conceded_per_minute
                 , pd.value
                 , pd.transfers_balance
                 , pd.selected
