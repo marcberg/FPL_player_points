@@ -66,7 +66,7 @@ FPL_player_points/
 ```
 
 ### analysis
-TODO!
+Analysis of the data and the target to get insights to the modelling. 
 
 
 ### artifacts
@@ -129,14 +129,14 @@ python main.py --part train_parts --feature_selection
 python main.py --part train_parts --train_models
 ```
 
-run specific algorithms while performing only grid search on 10% of the training-data. Using random grid search with 10 random hyperparameters.
+run grid search on 30% of the training-data. Using random grid search with 10 random hyperparameters.
 ```
-python main.py --part train_parts --train_models --run_grids --random_grid --sample_fraction_grid_data 0.1 --n_random_hyperparameters 10 --algo_linear_regression --algo_decision_tree
+python main.py --part train_parts --train_models --run_grids --random_grid --sample_fraction_grid_data 0.3 --n_random_hyperparameters 10
 ```
 
 run the final models with specified algorithms and saving the result to mlflow
 ```
-python main.py --part train_parts --train_models --algo_linear_regression --algo_decision_tree --save_to_mlflow
+python main.py --part train_parts --train_models --run_final_models --algo_linear_regression --algo_decision_tree --save_to_mlflow
 ```
 
 
@@ -154,7 +154,7 @@ mlflow server
 click the link that appears and it should open in your webbrowser. Don't close the terminal while using mlflow.
 
 
-## Todo-list
+## TODO-list
 
 - Add API and raw-data in to this project (currently in another project which I read from). Then update code and folder-structure.
 - Add deep learning-model
@@ -162,5 +162,5 @@ click the link that appears and it should open in your webbrowser. Don't close t
 - Add/update comments in code
 - Remove warnings (either by turn them off or by fixing the code)
 - Add more print() so you know whats running. And make the existing better.
-- fixes with training-data after analysis:
-    - leave some features with NaN so that the feature engineering pipeline can handle them (for example goals_conceeded = 0, really well if you play, misleading if you don't play.)
+- Remove crossvalidation argument from split data and handle that problem later in the code. 
+- Add more features!
