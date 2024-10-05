@@ -19,7 +19,7 @@ def score_data():
     predictions = model.predict(score)
 
     # save and print
-    score_output = score[['kickoff_time', 'playername', 'team', 'next_opponent', 'player_position', 'value']]
+    score_output = score[['kickoff_time', 'playername', 'team', 'next_opponent', 'player_position', 'value', 'starts', 'starts_rolling_avg']]
     score_output['predicted_points_next_game'] = predictions
     score_output = score_output.sort_values('predicted_points_next_game', ascending=False).reset_index(drop=True)
 
