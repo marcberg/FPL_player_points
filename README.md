@@ -139,6 +139,11 @@ run the final models with specified algorithms and saving the result to mlflow
 python main.py --part train_parts --train_models --run_final_models --algo_linear_regression --algo_decision_tree --save_to_mlflow
 ```
 
+How I would run the whole project
+```
+python main.py --part all --sample_fraction_grid_data 0.3 --n_random_hyperparameters 20 --run_grids --run_final_models --save_to_mlflow
+```
+
 
 ## mlflow
 
