@@ -27,6 +27,8 @@ def get_features_name():
             feature_names.extend(cat_feature_names.tolist())
         elif name == "num_pipeline":  
             feature_names.extend(columns)
+            missing_value_columns = [col for col in columns if X[col].isna().any()]
+            feature_names.extend(['missing_indicator_' + s for s in missing_value_columns])
         elif 'pca' in name:
             pca = transformer.named_steps.get('pca', None)
             n_components = pca.n_components
