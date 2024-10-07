@@ -140,12 +140,12 @@ def grid_search(algorithms,
                                     return_train_score=True, verbose=3)
         else:
             # Concatenate train and test data for predefined split
-            X = pd.concat([data['X_train'], data['X_test']], ignore_index=True)
-            y = pd.concat([data['y_train'], data['y_test']], ignore_index=True)
+            X = pd.concat([data['X_train'], data['X_val']], ignore_index=True)
+            y = pd.concat([data['y_train'], data['y_val']], ignore_index=True)
 
             # Define train/test indices for PredefinedSplit
             indices_train = np.full((data['X_train'].shape[0],), -1, dtype=int)
-            indices_test = np.full((data['X_test'].shape[0],), 0, dtype=int)
+            indices_test = np.full((data['X_val'].shape[0],), 0, dtype=int)
             
             test_fold = np.append(indices_train, indices_test)
             if fraction < 1.0:

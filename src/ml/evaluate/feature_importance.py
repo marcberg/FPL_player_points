@@ -30,9 +30,9 @@ def feature_importance(model_name):
     data = import_csv_files(data_path)
 
     # If test data is available, concatenate it with the training data for evaluation
-    if 'X_test' in data:
-        X = pd.concat([data['X_train'], data['X_test']], ignore_index=True)
-        y = pd.concat([data['y_train'], data['y_test']], ignore_index=True)
+    if 'X_val' in data:
+        X = pd.concat([data['X_train'], data['X_val']], ignore_index=True)
+        y = pd.concat([data['y_train'], data['y_val']], ignore_index=True)
     else:
         # Otherwise, use only the training data
         X = data['X_train']

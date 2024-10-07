@@ -63,10 +63,10 @@ def plot_y_aganst_predicted(y, y_hat):
     plt.ylabel("Predicted Values (y_hat)")
     plt.title("Scatter Plot of Actual vs Predicted Values")
 
-def plot_y_against_residuals(y_train, y_train_hat, y_val, y_val_hat, model_path):
+def plot_y_against_residuals(y_train, y_train_hat, y_test, y_test_hat, model_path):
     # Calculate residuals
     residuals_train = [y - y_hat for y, y_hat in zip(y_train, y_train_hat)]
-    residuals_val = [y - y_hat for y, y_hat in zip(y_val, y_val_hat)]
+    residuals_val = [y - y_hat for y, y_hat in zip(y_test, y_test_hat)]
 
     # Create a figure with 2 subplots
     fig, axs = plt.subplots(2, 1, figsize=(5, 6))
@@ -80,10 +80,10 @@ def plot_y_against_residuals(y_train, y_train_hat, y_val, y_val_hat, model_path)
     axs[0].grid(True)
 
     # Scatter plot for validation data
-    axs[1].scatter(y_val, residuals_val, color='green', alpha=0.5)
+    axs[1].scatter(y_test, residuals_val, color='green', alpha=0.5)
     axs[1].axhline(y=0, color='red', linestyle='--')
-    axs[1].set_xlabel("Actual Values (y_val)")
-    axs[1].set_ylabel("Residuals (y_val - y_hat)")
+    axs[1].set_xlabel("Actual Values (y_test)")
+    axs[1].set_ylabel("Residuals (y_test - y_hat)")
     axs[1].set_title("Residual Plot for Validation Data")
     axs[1].grid(True)
 
@@ -94,10 +94,10 @@ def plot_y_against_residuals(y_train, y_train_hat, y_val, y_val_hat, model_path)
     mlflow.log_artifact(model_path + 'y_against_residuals.png')
     plt.close()
 
-def plot_residual_histograms(y_train, y_train_hat, y_val, y_val_hat, model_path):
+def plot_residual_histograms(y_train, y_train_hat, y_test, y_test_hat, model_path):
     # Calculate residuals
     residuals_train = [y - y_hat for y, y_hat in zip(y_train, y_train_hat)]
-    residuals_val = [y - y_hat for y, y_hat in zip(y_val, y_val_hat)]
+    residuals_val = [y - y_hat for y, y_hat in zip(y_test, y_test_hat)]
 
     # Create a figure
     plt.figure(figsize=(10, 6))
@@ -174,9 +174,9 @@ def evaluate_model(algo_name, save_to_mlflow=False):
             data_path = 'artifacts/split_data/'
             data = import_csv_files(data_path) 
 
-            if 'X_test' in data:
-                X_train = pd.concat([data['X_train'], data['X_test']], ignore_index=True)
-                y_train = pd.concat([data['y_train'], data['y_test']], ignore_index=True)
+            if 'X_val' in data:
+                X_train = pd.concat([data['X_train'], data['X_val']], ignore_index=True)
+                y_train = pd.concat([data['y_train'], data['y_val']], ignore_index=True)
             else:
                 # Otherwise, use only the training data
                 X_train = data['X_train']
@@ -184,20 +184,20 @@ def evaluate_model(algo_name, save_to_mlflow=False):
                 
             ## predict
             y_train_hat = model.predict(X_train)
-            y_val_hat = model.predict(data['X_val'])
+            y_test_hat = model.predict(data['X_test'])
 
             ## plot y against residuals
             plot_y_against_residuals(y_train.iloc[:, 0].tolist(), 
                                      y_train_hat.flatten().tolist(), 
-                                     data['y_val'].iloc[:, 0].tolist(), 
-                                     y_val_hat.flatten().tolist(), 
+                                     data['y_test'].iloc[:, 0].tolist(), 
+                                     y_test_hat.flatten().tolist(), 
                                      model_path)
             
             ## plot residuals histogram
             plot_residual_histograms(y_train.iloc[:, 0].tolist(), 
                                      y_train_hat.flatten().tolist(), 
-                                     data['y_val'].iloc[:, 0].tolist(), 
-                                     y_val_hat.flatten().tolist(), 
+                                     data['y_test'].iloc[:, 0].tolist(), 
+                                     y_test_hat.flatten().tolist(), 
                                      model_path)
 
             # Save model

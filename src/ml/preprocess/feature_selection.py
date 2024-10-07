@@ -68,9 +68,6 @@ def feature_selection_by_test(select_p_value=0.05):
     Select features based on their significance to the target variable using ANOVA test.
     
     Inputs:
-    - train: pandas DataFrame for the feature dataset.
-    - target: pandas DataFrame for the target dataset.
-    - test: pandas DataFrame for the test dataset (optional).
     - select_p_value: float, threshold for p-value below which a feature is considered significant.
 
     Output:

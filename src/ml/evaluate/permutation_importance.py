@@ -26,9 +26,9 @@ def permutation_importance(model_name):
     data = import_csv_files(data_path)
 
     # If test data exists, concatenate it with the training data for model evaluation
-    if 'X_test' in data:
-        X = pd.concat([data['X_train'], data['X_test']], ignore_index=True)
-        y = pd.concat([data['y_train'], data['y_test']], ignore_index=True)
+    if 'X_val' in data:
+        X = pd.concat([data['X_train'], data['X_val']], ignore_index=True)
+        y = pd.concat([data['y_train'], data['y_val']], ignore_index=True)
     else:
         # Otherwise, use only the training data
         X = data['X_train']
@@ -37,7 +37,7 @@ def permutation_importance(model_name):
     # Load the feature engineering pipeline and transform the training data
     feature_engineering_pipeline = joblib.load('artifacts/feature_engineered_data/feature_engineering_pipeline.joblib')
     X_train_transformed = feature_engineering_pipeline.fit_transform(X)
-    X_val_transformed = feature_engineering_pipeline.fit_transform(data['X_val'])
+    X_test_transformed = feature_engineering_pipeline.fit_transform(data['X_test'])
 
     # Load the trained model from the specified path
     model_path = 'artifacts/ml_results/{0}/'.format(model_name)
@@ -48,7 +48,7 @@ def permutation_importance(model_name):
 
     # Perform permutation importance on the validation set
     # This assesses the drop in model performance when each feature is randomly shuffled
-    perm_importance = sklearn.inspection.permutation_importance(model[-1], X_val_transformed, data['y_val'])
+    perm_importance = sklearn.inspection.permutation_importance(model[-1], X_test_transformed, data['y_test'])
 
     # Extract the average importance for each feature
     feature_importances = perm_importance.importances_mean

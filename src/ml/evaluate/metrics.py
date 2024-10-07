@@ -32,10 +32,10 @@ def calculate_regression_metrics(model_name):
     # Calculate metrics for train, validation, and test sets
     append_metrics('train', data['X_train'], data['y_train'])
     try:
-        append_metrics('test', data['X_test'], data['y_test'])
+        append_metrics('test', data['X_val'], data['y_val'])
     except:
         pass
-    append_metrics('validation', data['X_val'], data['y_val'])
+    append_metrics('validation', data['X_test'], data['y_test'])
     
     metrics_df.to_excel('artifacts/ml_results/{0}/metrics.xlsx'.format(model_name), index=False)
 

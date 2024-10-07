@@ -24,9 +24,9 @@ def train_with_best_hyperparameters(algo_name, algorithm):
     data_path = 'artifacts/split_data/'
     data = import_csv_files(data_path) 
     
-    if 'X_test' in data:
-        X = pd.concat([data['X_train'], data['X_test']], ignore_index=True)
-        y = pd.concat([data['y_train'], data['y_test']], ignore_index=True)
+    if 'X_val' in data:
+        X = pd.concat([data['X_train'], data['X_val']], ignore_index=True)
+        y = pd.concat([data['y_train'], data['y_val']], ignore_index=True)
     else:
         X = data['X_train']
         y = data['y_train']
