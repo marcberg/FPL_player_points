@@ -25,6 +25,7 @@ def train_models(run_grids=True,
                  algo_lightgbm=None,
                  algo_catboost=None,
                  algo_svr=None,
+                 algo_keras=None,
 
                  save_to_mlflow=False
                  ):
@@ -44,7 +45,8 @@ def train_models(run_grids=True,
         "XGBoost": algo_xgboost,
         "LightGBM": algo_lightgbm,
         "CatBoost": algo_catboost,
-        "SVR": algo_svr
+        "SVR": algo_svr,
+        "KerasRegressor": algo_keras
     }
 
     selected_algorithms = {name: algo for name, algo in algorithms.items() if condition_map.get(name, False)}

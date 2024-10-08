@@ -31,7 +31,8 @@ def main(args):
         args.algo_xgboost,
         args.algo_lightgbm,
         args.algo_catboost,
-        args.algo_svr
+        args.algo_svr,
+        args.algo_keras
     ]
 
     # If any of the algorithm-specific flags are True, set run_all_algos to False
@@ -42,8 +43,11 @@ def main(args):
         spark = get_spark_session()
         sc = spark.sparkContext
         sc.setLogLevel("ERROR")
-        preprocess_data(spark, fraction=args.sample_fraction_train_data)
-        spark.stop()
+        try:
+            preprocess_data(spark, fraction=args.sample_fraction_train_data)
+            spark.stop()
+        except:
+            spark.stop()
 
     elif args.part == 'train' or args.part == 'train_parts':
 
@@ -86,6 +90,7 @@ def main(args):
                         algo_lightgbm=args.algo_lightgbm or args.run_all_algos,
                         algo_catboost=args.algo_catboost or args.run_all_algos,
                         algo_svr=False, #args.algo_svr or args.run_all_algos,
+                        algo_keras=args.algo_keras or args.run_all_algos,
                         
                         save_to_mlflow=args.save_to_mlflow)
             
@@ -134,6 +139,7 @@ def main(args):
                      algo_lightgbm=args.algo_lightgbm or args.run_all_algos,
                      algo_catboost=args.algo_catboost or args.run_all_algos,
                      algo_svr=False, #args.algo_svr or args.run_all_algos,
+                     algo_keras=args.algo_keras or args.run_all_algos,
                      
                      save_to_mlflow=args.save_to_mlflow)
         
@@ -163,6 +169,7 @@ if __name__ == "__main__":
     parser.add_argument('--algo_lightgbm', action='store_true', help="Use LightGBM algorithm")
     parser.add_argument('--algo_catboost', action='store_true', help="Use CatBoost algorithm")
     parser.add_argument('--algo_svr', action='store_true', help="Use Support Vector Regression algorithm")
+    parser.add_argument('--algo_keras', action='store_true', help="Use Keras Regressor")
 
     # New flags for mlflow and grid search
     parser.add_argument('--search_all_grid', action='store_false', help="Use random grid search for hyperparameters (default: False)")

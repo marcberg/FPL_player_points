@@ -6,6 +6,8 @@ import xgboost as xgb
 import lightgbm as lgb
 from catboost import CatBoostRegressor
 
+from src.ml.training.deep_learning_model import keras_reg
+
 def algorithms_params():
 
     algorithms = {
@@ -19,7 +21,8 @@ def algorithms_params():
         "XGBoost": xgb.XGBRegressor(),
         "LightGBM": lgb.LGBMRegressor(),
         "CatBoost": CatBoostRegressor(),
-        "SVR": SVR()
+        "SVR": SVR(),
+        "KerasRegressor": keras_reg
     }
 
     params = {
@@ -93,6 +96,14 @@ def algorithms_params():
             'model__C': [0.1, 1, 10, 100],
             'model__epsilon': [0.01, 0.1, 0.2],
             'model__degree': [2, 3, 4]  # Only relevant for 'poly' kernel
+        },
+        "KerasRegressor": {
+            'model__model__units_list': [[16], [32], [64], [128], [16, 32], [32, 64], [64, 128], [16, 32, 64], [32, 64, 128]], 
+            'model__model__activation': ['relu', 'tanh'],
+            'model__model__optimizer': ['adam', 'sgd'],
+            'model__model__learning_rate': [0.0001, 0.001, 0.01, 0.1],
+            'model__epochs': [50, 100, 200],
+            'model__batch_size': [10, 20, 40]
         }
     }
 
