@@ -80,14 +80,14 @@ def player_data(spark):
                 , pd.ict_index
                 , pd.ict_index / coalesce(pd.minutes, 0) as ict_index_per_minute
                 , pd.starts
-                , pd.expected_goals
-                , pd.expected_goals / coalesce(pd.minutes, 0) as expected_goals_per_minute
-                , pd.expected_assists
-                , pd.expected_assists / coalesce(pd.minutes, 0) as expected_assists_per_minute
-                , pd.expected_goal_involvements
-                , pd.expected_goal_involvements / coalesce(pd.minutes, 0) as expected_goal_involvements_per_minute
-                , pd.expected_goals_conceded
-                , pd.expected_goals_conceded / coalesce(pd.minutes, 0) as expected_goals_conceded_per_minute
+                , (case when pd.minutes > 0 then pd.expected_goals else 0 end) as expected_goals
+                , (case when pd.minutes > 0 then pd.expected_goals else 0 end) / coalesce(pd.minutes, 0) as expected_goals_per_minute
+                , (case when pd.minutes > 0 then pd.expected_assists else 0 end) as expected_assists
+                , (case when pd.minutes > 0 then pd.expected_assists else 0 end) / coalesce(pd.minutes, 0) as expected_assists_per_minute
+                , (case when pd.minutes > 0 then pd.expected_goal_involvements else 0 end) as expected_goal_involvements
+                , (case when pd.minutes > 0 then pd.expected_goal_involvements else 0 end) / coalesce(pd.minutes, 0) as expected_goal_involvements_per_minute
+                , (case when pd.minutes > 0 then pd.expected_goals_conceded else 0 end) as expected_goals_conceded
+                , (case when pd.minutes > 0 then pd.expected_goals_conceded else 0 end) / coalesce(pd.minutes, 0) as expected_goals_conceded_per_minute
                 , pd.value
                 , pd.transfers_balance
                 , pd.selected

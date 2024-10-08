@@ -7,7 +7,6 @@ from sklearn.model_selection import RandomizedSearchCV, GridSearchCV, Predefined
 from sklearn.pipeline import Pipeline
 
 from src.util.read_multiple_csv import import_csv_files
-from src.ml.training.algo_and_hyperparameters import algorithms_params
 
 def sample_data(X, y, indices_train=None, indices_test=None, fraction=1.0, random_state=42):
 
