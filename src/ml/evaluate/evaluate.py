@@ -120,17 +120,17 @@ def plot_residual_histograms(y_train, y_train_hat, y_test, y_test_hat, model_pat
     mlflow.log_artifact(model_path + 'residual_histogram.png')
     plt.close()
 
-def evaluate_model(algo_name, save_to_mlflow=False):
+def evaluate_model(algo_name, timestamp, save_to_mlflow=False):
     
     metrics = calculate_regression_metrics(algo_name)
-    feature_importance(algo_name)
+    if algo_name in ["Linear Regression", "Ridge Regression", "Lasso Regression", "ElasticNet", "Decision Tree", "Random Forest", "Gradient Boosting", "XGBoost", "LightGBM", "CatBoost"]:
+        feature_importance(algo_name)
     permutation_importance(algo_name)
 
     if save_to_mlflow:
-        mlflow.set_experiment('FPL Player points next game')
-
-        timestamp = " " + str(pd.to_datetime('today'))
-        with mlflow.start_run(run_name=algo_name + timestamp):
+        mlflow.set_experiment('FPL Player points next game' + timestamp)
+        
+        with mlflow.start_run(run_name=algo_name):
             mlflow.set_tag('algo', algo_name)
             
             model_path = 'artifacts/ml_results/{0}/'.format(algo_name)

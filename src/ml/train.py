@@ -64,6 +64,7 @@ def train_models(run_grids=True,
 
 
     model_performance = {}
+    timestamp = " " + str(pd.to_datetime('today'))
     if run_final_models:
         print('Train each algorithm with their best hyperparameters')
         for algo in range(len(list(selected_algorithms))):
@@ -74,7 +75,7 @@ def train_models(run_grids=True,
             train_with_best_hyperparameters(algo_name, algorithm)
 
             print('-- Evaluating the model')
-            metrics = evaluate_model(algo_name, save_to_mlflow=save_to_mlflow)
+            metrics = evaluate_model(algo_name, timestamp, save_to_mlflow=save_to_mlflow)
 
             # save the models metric to decide which performs the best that we can score with
             metric = metrics.loc[metrics.dataset == "validation"]['MSE'].iloc[0]
