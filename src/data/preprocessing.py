@@ -27,7 +27,7 @@ def preprocess_data(spark, fraction=1.0):
         .join(team_calculations, on=["team", "opponent", "kickoff_time", "season_start_year"], how='inner')
 
     # Replace NaN with 0 in specified columns
-    data = data.distinct().sample(fraction=fraction) # .fillna(0, subset=columns_to_fill_with_zero)
+    data = data.distinct().sample(fraction=fraction)
 
     # train
     df_train = data.filter((f.col("data") == "train") & f.col("next_game_home").isNotNull()).toPandas()

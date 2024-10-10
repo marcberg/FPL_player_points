@@ -133,10 +133,10 @@ def grid_search(algorithms,
                                           cv=5, n_jobs=-1, scoring='neg_mean_squared_error', error_score="raise", 
                                           return_train_score=True, verbose=3)
             else:
-                
                 grid = GridSearchCV(estimator=pipeline, param_grid=param, cv=5, n_jobs=-1, 
                                     scoring='neg_mean_squared_error', error_score="raise", 
                                     return_train_score=True, verbose=3)
+                
         else:
             # Concatenate train and test data for predefined split
             X = pd.concat([data['X_train'], data['X_val']], ignore_index=True)
