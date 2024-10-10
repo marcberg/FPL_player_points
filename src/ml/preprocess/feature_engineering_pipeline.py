@@ -72,13 +72,47 @@ def fe_pipeline(included_features):
     categorical_cols = cols.loc[cols.type == 'categorical']['col'].to_list()
 
     # Define specific column categories for team, expected, rolling averages, and others
-    team_cols = ['team_scored', 'team_conceded', 'home', 'win', 'draw', 'loss', 'next_game_home',
-                 'team_scored_rolling_avg', 'team_conceded_rolling_avg', 'home_rolling_avg', 'win_rolling_avg',
-                 'draw_rolling_avg', 'loss_rolling_avg', 'win_rate_home_away_2', 'draw_rate_home_away_2',	
-                 'loss_rate_home_away_2', 'avg_team_scored_home_away_2', 'avg_team_conceded_home_away_2',
-                 'number_of_games', 'points_from_last_game', 'team_points', 'points_to_team_above', 'points_to_team_below',
-                 'games_left_season', 'games_left_diff_above', 'games_left_diff_below', 'points_to_win', 'points_to_cl',
-                 'points_to_euro', 'points_to_regulation']
+    team_cols = ['team_scored'
+                , 'team_conceded'
+                , 'home'
+                , 'win'
+                , 'draw'
+                , 'loss'
+                , 'next_game_home'
+                , 'win_rate_home_away_2'
+                , 'draw_rate_home_away_2'
+                , 'loss_rate_home_away_2'
+                , 'avg_team_scored_home_away_2'
+                , 'avg_team_conceded_home_away_2'
+                , 'position'
+                , 'team_points'
+                , 'points_to_team_above'
+                , 'points_to_team_below'
+                , 'games_remaining'
+                , 'games_left_diff_above'
+                , 'games_left_diff_below'
+                , 'points_to_win'
+                , 'points_to_cl'
+                , 'points_to_euro'
+                , 'points_to_regulation'
+                , 'opponent_position'
+                , 'opponent_team_points'
+                , 'opponent_points_to_team_above'
+                , 'opponent_points_to_team_below'
+                , 'opponent_games_remaining'
+                , 'opponent_games_left_diff_above'
+                , 'opponent_games_left_diff_below'
+                , 'opponent_points_to_win'
+                , 'opponent_points_to_cl'
+                , 'opponent_points_to_euro'
+                , 'opponent_points_to_regulation'
+                , 'team_scored_rolling_avg'
+                , 'team_conceded_rolling_avg'
+                , 'home_rolling_avg'
+                , 'win_rolling_avg'
+                , 'draw_rolling_avg'
+                , 'loss_rolling_avg'
+                ]
 
     expected_cols = [feature for feature in numeric_cols if ("expected_" in feature and feature not in team_cols)]
     rolling_avg_cols = [feature for feature in numeric_cols if ("_rolling_avg" in feature and feature not in team_cols + expected_cols)]
