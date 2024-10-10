@@ -46,8 +46,9 @@ def main(args):
         try:
             preprocess_data(spark, fraction=args.sample_fraction_train_data)
             spark.stop()
-        except:
+        except Exception as error:
             spark.stop()
+            print("An error occurred:", error)
 
     elif args.part == 'train' or args.part == 'train_parts':
 
