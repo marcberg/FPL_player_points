@@ -46,9 +46,15 @@ def permutation_importance(model_name):
     # Fit the model on the transformed training data
     model[-1].fit(X_train_transformed, y.iloc[0:].values.flatten())
 
+
     # Perform permutation importance on the validation set
     # This assesses the drop in model performance when each feature is randomly shuffled
-    perm_importance = sklearn.inspection.permutation_importance(model[-1], X_test_transformed, data['y_test'])
+    if model_name == "KerasRegressor":
+        y_test = data['y_test'].values.ravel()
+    else:
+        y_test = data['y_test']
+
+    perm_importance = sklearn.inspection.permutation_importance(model[-1], X_test_transformed, y_test)
 
     # Extract the average importance for each feature
     feature_importances = perm_importance.importances_mean

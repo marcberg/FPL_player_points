@@ -1,7 +1,7 @@
 from scikeras.wrappers import KerasRegressor
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Input
-from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.optimizers import Adam, SGD
 
 from src.util.feature_names import get_features_name
 
@@ -16,10 +16,14 @@ def build_model(units_list=[64], activation='relu', optimizer='adam', learning_r
 
     model.add(Dense(1))  # Output layer for regression
     if optimizer == 'adam':
-        model.compile(optimizer=Adam(learning_rate=learning_rate), loss='mean_squared_error')
+        opt = Adam(learning_rate=learning_rate)
+    elif optimizer == 'sgd':
+        opt = SGD(learning_rate=learning_rate)
     else:
-        # Use SGD or other optimizers if needed
-        model.compile(optimizer=optimizer, loss='mean_squared_error')
+        raise ValueError(f"Unsupported optimizer: {optimizer}")
+    
+    model.compile(optimizer=opt, loss='mean_squared_error')
+    
     return model
 
 # Create the KerasRegressor and pass the input_dim dynamically during fit
