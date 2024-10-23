@@ -176,3 +176,4 @@ click the link that appears and it should open in your webbrowser. Don't close t
 - Remove warnings (either by turn them off or by fixing the code)
 - Add more print() so you know whats running. And make the existing better.
 - Remove crossvalidation argument from split data and handle that problem later in the code. 
+- add BayesSearchCV
