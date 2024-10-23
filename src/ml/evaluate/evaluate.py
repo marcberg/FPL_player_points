@@ -122,12 +122,14 @@ def plot_residual_histograms(y_train, y_train_hat, y_test, y_test_hat, model_pat
 
 def evaluate_model(algo_name, timestamp, save_to_mlflow=False):
     
+    print('\t- Evaluating the model:')
     metrics = calculate_regression_metrics(algo_name)
     if algo_name in ["Linear Regression", "Ridge Regression", "Lasso Regression", "ElasticNet", "Decision Tree", "Random Forest", "Gradient Boosting", "XGBoost", "LightGBM", "CatBoost"]:
         feature_importance(algo_name)
     permutation_importance(algo_name)
 
     if save_to_mlflow:
+        print('\t- MLflow')
         mlflow.set_experiment('FPL Player points next game' + timestamp)
         
         with mlflow.start_run(run_name=algo_name):
@@ -146,10 +148,10 @@ def evaluate_model(algo_name, timestamp, save_to_mlflow=False):
             def log_metric_mlflow(metric):
                 mlflow.log_metric(metric + ' ' + 'train', metrics.loc[metrics.dataset == "train"][metric].iloc[0])
                 try:
-                    mlflow.log_metric(metric + ' ' + 'test', metrics.loc[metrics.dataset == "test"][metric].iloc[0])
+                    mlflow.log_metric(metric + ' ' + 'val', metrics.loc[metrics.dataset == "validation"][metric].iloc[0])
                 except:
                     pass
-                mlflow.log_metric(metric + ' ' + 'val', metrics.loc[metrics.dataset == "validation"][metric].iloc[0])
+                mlflow.log_metric(metric + ' ' + 'test', metrics.loc[metrics.dataset == "test"][metric].iloc[0])
 
             metrics_to_log = ['R2', 'MAE', 'MSE', 'RMSE']
 

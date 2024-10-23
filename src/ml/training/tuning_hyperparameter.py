@@ -109,7 +109,7 @@ def grid_search(algorithms,
     
     # Iterate through each model and perform grid search
     for i in range(len(list(algorithms))):
-        print('- ' + list(algorithms.keys())[i])
+        print('\n- ' + list(algorithms.keys())[i] + '\n')
 
         algorithm = list(algorithms.values())[i]
         param = list(params.values())[i]
@@ -121,6 +121,11 @@ def grid_search(algorithms,
         ])
 
         # Perform cross-validation or use predefined train/test split
+        num_cores = os.cpu_count()
+        use_num_cores = (num_cores if num_cores <= 4 
+                 else num_cores - 1 if num_cores <= 8 
+                 else num_cores - 2)
+        os.environ['LOKY_MAX_CPU_COUNT'] = str(use_num_cores)
         if perform_crossvalidation:
             X = data['X_train']
             y = data['y_train']
@@ -129,13 +134,24 @@ def grid_search(algorithms,
                 X, y = sample_data(X, y, fraction=fraction)
 
             if random_grid:
-                grid = RandomizedSearchCV(estimator=pipeline, param_distributions=param, n_iter=n_random_hyperparameters,
-                                          cv=5, n_jobs=-1, scoring='neg_mean_squared_error', error_score="raise", 
-                                          return_train_score=True, verbose=3)
+                grid = RandomizedSearchCV(estimator=pipeline, 
+                                          param_distributions=param, 
+                                          n_iter=n_random_hyperparameters,
+                                          cv=5, 
+                                          n_jobs=use_num_cores, 
+                                          scoring='neg_mean_squared_error', 
+                                          error_score=np.nan, 
+                                          return_train_score=True, 
+                                          verbose=3)
             else:
-                grid = GridSearchCV(estimator=pipeline, param_grid=param, cv=5, n_jobs=-1, 
-                                    scoring='neg_mean_squared_error', error_score="raise", 
-                                    return_train_score=True, verbose=3)
+                grid = GridSearchCV(estimator=pipeline, 
+                                    param_grid=param, 
+                                    cv=5, 
+                                    n_jobs=use_num_cores, 
+                                    scoring='neg_mean_squared_error', 
+                                    error_score=np.nan, 
+                                    return_train_score=True, 
+                                    verbose=3)
                 
         else:
             # Concatenate train and test data for predefined split
@@ -153,13 +169,25 @@ def grid_search(algorithms,
             ps = PredefinedSplit(test_fold)
 
             if random_grid:
-                grid = RandomizedSearchCV(estimator=pipeline, param_distributions=param, n_iter=n_random_hyperparameters,
-                                          cv=ps, scoring='neg_mean_squared_error', error_score="raise", 
-                                          return_train_score=True, verbose=3)
+                grid = RandomizedSearchCV(estimator=pipeline, 
+                                          param_distributions=param, 
+                                          n_iter=n_random_hyperparameters,
+                                          cv=ps, 
+                                          n_jobs=use_num_cores, 
+                                          scoring='neg_mean_squared_error', 
+                                          error_score=np.nan, 
+                                          return_train_score=True, 
+                                          verbose=3)
             else:
-                grid = GridSearchCV(estimator=pipeline, param_grid=param, cv=ps, 
-                                    scoring='neg_mean_squared_error', error_score="raise", 
-                                    return_train_score=True, verbose=3)
+                grid = GridSearchCV(estimator=pipeline, 
+                                    param_grid=param, 
+                                    n_iter=n_random_hyperparameters, 
+                                    cv=ps, 
+                                    n_jobs=use_num_cores, 
+                                    scoring='neg_mean_squared_error', 
+                                    error_score=np.nan, 
+                                    return_train_score=True, 
+                                    verbose=3)
 
         # Fit the grid search
         grid.fit(X, y)

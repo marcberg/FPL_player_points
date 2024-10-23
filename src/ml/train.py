@@ -53,7 +53,7 @@ def train_models(run_grids=True,
     selected_params = {name: param for name, param in params.items() if condition_map.get(name, False)}
 
     if run_grids:
-        print('Performing hyperparameter tuning')
+        print('\nPerforming hyperparameter tuning:')
         grid_search(algorithms=selected_algorithms, 
                     params=selected_params,
                     perform_crossvalidation=perform_crossvalidation,
@@ -66,22 +66,25 @@ def train_models(run_grids=True,
     model_performance = {}
     timestamp = " " + str(pd.to_datetime('today'))
     if run_final_models:
-        print('Train each algorithm with their best hyperparameters')
+        print('\nTrain each algorithm with their best hyperparameters:')
         for algo in range(len(list(selected_algorithms))):
             algo_name = list(selected_algorithms.keys())[algo]
             algorithm = list(selected_algorithms.values())[algo]
-            print('- ' + algo_name)
+            print('\n\t' + algo_name)
                 
             train_with_best_hyperparameters(algo_name, algorithm)
 
-            print('-- Evaluating the model')
             metrics = evaluate_model(algo_name, timestamp, save_to_mlflow=save_to_mlflow)
 
             # save the models metric to decide which performs the best that we can score with
-            metric = metrics.loc[metrics.dataset == "validation"]['MSE'].iloc[0]
+            metric = metrics.loc[metrics.dataset == "test"]['MSE'].iloc[0]
             model_performance[algo_name] = metric
         
-        print(model_performance)
+        df_model_performance = pd.DataFrame(list(model_performance.items()), columns=['Algorithm', 'Metric'])
+        df_model_performance = df_model_performance.sort_values(by='Metric').reset_index(drop=True)
+        print('\n\n Model result:\n')
+        print(df_model_performance.to_string(index=False))
+        
         # Select the name with the lowest value
         lowest_model = min(model_performance, key=model_performance.get)
         lowest_value = model_performance[lowest_model]

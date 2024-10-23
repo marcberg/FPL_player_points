@@ -17,4 +17,3 @@ def delete_files_in_folder(folder_path):
     for file in files:
         if os.path.isfile(file):
             os.remove(file)
-            print(f"Deleted: {file}")

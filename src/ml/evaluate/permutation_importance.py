@@ -18,6 +18,8 @@ def permutation_importance(model_name):
         None: The permutation importance results are saved in an Excel file.
     """
 
+    print('\t-- Permutation importance')
+    
     # Retrieve the feature names used in the model
     feature_names = get_features_name()
 

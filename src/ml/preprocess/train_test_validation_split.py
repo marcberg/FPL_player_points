@@ -23,7 +23,7 @@ def split_data(train_size=0.6, perform_crossvalidation=True, random_state=None):
     Dictionary with 'train', 'val', and 'test' keys containing the respective splits.
     """
     
-    print('Split up data')
+    print('\nSplit up data:')
     path = 'artifacts/split_data/'
     delete_files_in_folder(path)
     

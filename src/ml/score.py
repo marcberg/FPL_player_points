@@ -4,10 +4,10 @@ import os
 
 def score_data():
 
-    print('Score data')
+    print('\nScore data:')
     # Get the best model
     best_algo = pd.read_csv('artifacts/ml_results/best_performing_algorithm.csv').iloc[0,0]
-    print(f"Scoring new data with {best_algo}.")
+    print(f"- Scoring new data with {best_algo}.")
 
     model_path = 'artifacts/ml_results/{0}/'.format(best_algo)
     model = joblib.load(os.path.join(model_path, 'model.pkl'))

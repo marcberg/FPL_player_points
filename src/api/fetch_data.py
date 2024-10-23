@@ -47,11 +47,12 @@ def fetch_data(fetching_function,
         pass
 
     season_data.to_csv('raw_data/' + fetching_function.__name__ + '.csv', index=False)
-    print('data/' + fetching_function.__name__ + '.csv is fetched.')
+    print('- data/' + fetching_function.__name__ + '.csv is created/updated.')
 
 
 # API-functions
 def get_data():
+    print('\nfetching raw data:')
     fetch_data(get_game_list, id_list = ["id","team_h","team_a","season_start_year"])
     fetch_data(get_player_details, id_list = ["season_start_year","element","fixture"])
     fetch_data(get_player_hist, id_list = ["season_name","element_code"], season_specific=False)

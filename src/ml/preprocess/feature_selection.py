@@ -74,7 +74,7 @@ def feature_selection_by_test(select_p_value=0.05):
     - selected_features: list of feature names that are statistically significant.
     """
     
-    print('Select significant features and build feature engineering pipeline')
+    print('\nSelect significant features and build feature engineering pipeline...')
     # get the training-set
     X_train = pd.read_csv('artifacts/split_data/X_train.csv')
     y_train = pd.read_csv('artifacts/split_data/y_train.csv')

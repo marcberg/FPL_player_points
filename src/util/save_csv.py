@@ -18,4 +18,4 @@ def save_multiple_csv(obj_dict, path="."):
     for obj_name, obj in obj_dict.items():
         file_path = os.path.join(path, f"{obj_name}.csv")
         obj.to_csv(file_path, index=False, header=True)
-        print(f"Saved {file_path}")
+        print(f"- {file_path} is created")

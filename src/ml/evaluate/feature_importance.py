@@ -22,6 +22,7 @@ def feature_importance(model_name):
                   or coefficients and p-values (for linear models).
     """
     
+    print('\t-- Feature importance')
     # Retrieve the feature names used in the model
     feature_names = get_features_name()
 

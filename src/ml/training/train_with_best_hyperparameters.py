@@ -8,6 +8,7 @@ from src.util.read_multiple_csv import import_csv_files
 
 def train_with_best_hyperparameters(algo_name, algorithm):
 
+    print('\t- Training')
     # load feature engineering pipeline
     feature_engineering_pipeline = joblib.load('artifacts/feature_engineered_data/feature_engineering_pipeline.joblib')
 

@@ -19,7 +19,7 @@ def preprocess_data(spark, fraction=1.0):
     Returns:
         None
     """
-    print('Preprocessing data')
+    print('\nPreprocessing data:')
     player_calculations = player_data(spark)
     team_calculations = team_data(spark)
 

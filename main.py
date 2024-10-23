@@ -1,6 +1,17 @@
 import argparse
 import os
+from sklearn.exceptions import ConvergenceWarning
+
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+
+import warnings
+warnings.filterwarnings("ignore", category=ConvergenceWarning)
+warnings.filterwarnings("ignore", category=UserWarning)
+
+
+import logging
+logging.basicConfig(level=logging.ERROR)
 
 from src.util.spark_session import get_spark_session
 from src.api.fetch_data import get_data
@@ -11,12 +22,6 @@ from src.ml.preprocess.feature_engineering_pipeline import fe_pipeline
 from src.ml.train import train_models
 from src.ml.score import score_data
 
-import warnings
-warnings.filterwarnings("ignore")
-
-import logging
-# Set up basic logging
-logging.basicConfig(level=logging.ERROR)
 
 def main(args):
     # Check if any algo-specific parameters are specified
@@ -45,7 +50,7 @@ def main(args):
     if args.part == 'fetch_data':
         get_data()
     
-    if args.part == 'preprocess':
+    elif args.part == 'preprocess':
         spark = get_spark_session()
         sc = spark.sparkContext
         sc.setLogLevel("ERROR")
