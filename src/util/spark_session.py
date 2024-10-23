@@ -14,6 +14,7 @@ def get_spark_session():
     # Initialize Spark session
     spark = SparkSession.builder \
         .appName('local') \
+        .config("spark.ui.showConsoleProgress", "false") \
         .getOrCreate()
     
     sc = spark.sparkContext
