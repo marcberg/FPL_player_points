@@ -58,7 +58,7 @@ def select_param_from_grid(grid, algo_name):
     # Calculate validation criteria for selection
     # TODO: Can this be better? of course, but what?
     cv_results['div'] = cv_results.mean_train_score / cv_results.mean_test_score
-    cv_results['ok'] = np.where((cv_results['div'] >= 0.8) & 
+    cv_results['ok'] = np.where((cv_results['div'] >= 0.7) & 
                                 (cv_results['div'] <= 1.3), 1, 0)
     
     # Create a directory for saving results
