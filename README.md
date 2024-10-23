@@ -56,7 +56,10 @@ FPL_player_points/
 │    ├─ ml_results/
 │    └─ split_data/
 │
+├─ raw_data/
+│
 ├─ src/
+│    ├─ api/
 │    ├─ data/
 │    ├─ ml/
 │    └─ util/
@@ -85,7 +88,15 @@ split_data:
 - train, test and val. 
 
 
+### raw_data
+
+Raw data fetch with API. 
+
+
 ### src
+
+api:
+- functions used for fetching the data. Divided in to categories.
 
 data:
 - functions used to read and preprocess the data into training and score. 
@@ -160,8 +171,6 @@ click the link that appears and it should open in your webbrowser. Don't close t
 
 ## TODO-list
 
-- Add API and raw-data in to this project (currently in another project which I read from). Then update code and folder-structure.
-- Add deep learning-model
 - Add/update docstrings
 - Add/update comments in code
 - Remove warnings (either by turn them off or by fixing the code)

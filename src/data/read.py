@@ -19,7 +19,7 @@ def create_temp_view(name, spark):
     """
     
     # Construct the file path for the CSV file using the given name
-    file_path = f"../FPL_predictions/artifacts/fetched_data/{name}.csv"
+    file_path = f"raw_data/{name}.csv"
     
     # Read the CSV file into a Spark DataFrame, with headers and schema inference enabled
     df = spark.read.csv(file_path, header=True, inferSchema=True)

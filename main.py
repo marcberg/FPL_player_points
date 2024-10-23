@@ -1,6 +1,9 @@
 import argparse
+import os
+os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 
 from src.util.spark_session import get_spark_session
+from src.api.fetch_data import get_data
 from src.data.preprocessing import preprocess_data
 from src.ml.preprocess.train_test_validation_split import split_data
 from src.ml.preprocess.feature_selection import feature_selection_by_test
@@ -38,6 +41,9 @@ def main(args):
     # If any of the algorithm-specific flags are True, set run_all_algos to False
     if any(algo_flags):
         args.run_all_algos = False
+
+    if args.part == 'fetch_data':
+        get_data()
     
     if args.part == 'preprocess':
         spark = get_spark_session()
@@ -99,6 +105,9 @@ def main(args):
         score_data()
 
     elif args.part == 'all':
+        
+        get_data()
+
         spark = get_spark_session()
         sc = spark.sparkContext
         sc.setLogLevel("ERROR")
@@ -148,7 +157,7 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run parts or the entire ML pipeline")
-    parser.add_argument('--part', type=str, choices=['preprocess', 'train', 'train_parts', 'score', 'all'], default='all',
+    parser.add_argument('--part', type=str, choices=['fetch_data', 'preprocess', 'train', 'train_parts', 'score', 'all'], default='all',
                         help="Choose which part of the project to run (default: run all parts)")
     parser.add_argument('--split_data', action='store_true', help="Split data into train, test and val")
     parser.add_argument('--feature_selection', action='store_true', help="Select significant features to the model")
