@@ -98,7 +98,7 @@ def algorithms_params():
             'model__degree': [2, 3, 4]  # Only relevant for 'poly' kernel
         },
         "KerasRegressor": {
-            'model__model__units_list': [[16], [32], [64], [128], [16, 32], [32, 64], [64, 128], [16, 32, 64], [32, 64, 128]], 
+            'model__model__units_list': [[16], [32], [64], [128], [32, 16], [64, 32], [128, 64], [64, 32, 16], [128, 64, 32], [128, 64, 32, 16]], 
             'model__model__activation': ['relu', 'tanh'],
             'model__model__optimizer': ['adam', 'sgd'],
             'model__model__learning_rate': [0.0001, 0.001, 0.005],
