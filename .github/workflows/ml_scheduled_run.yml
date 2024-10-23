@@ -34,7 +34,7 @@ jobs:
     - name: Run ML pipeline
       run: |
         conda activate venv_fpl_player_points
-        python main.py --part all --sample_fraction_grid_data 0.3 --n_random_hyperparameters 20 --run_grids --run_final_models --save_to_mlflow
+        python main.py --part all --sample_fraction_grid_data 0.3 --n_random_hyperparameters 20 --run_grids --run_final_models
 
     # Upload predictions.csv as an artifact
     - name: Upload predictions
