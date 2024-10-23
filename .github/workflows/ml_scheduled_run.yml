@@ -1,6 +1,7 @@
 name: ML Scheduled Run
 
 on:
+  workflow_dispatch:  # Allows manual trigger
   schedule:
     # Runs every Thursday at 6 AM (Sweden Time, which is UTC+2 during daylight saving)
     - cron: '0 4 * * 4'
