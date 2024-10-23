@@ -15,18 +15,17 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    # Set up conda
+    # Set up Miniconda
     - name: Set up Miniconda
       uses: conda-incubator/setup-miniconda@v2
       with:
         python-version: 3.11
-        environment-file: environment.yml
-        activate-environment: venv_fpl_player_points
         auto-update-conda: true
 
     # Install dependencies from requirements.txt
     - name: Install dependencies
       run: |
+        conda create --name venv_fpl_player_points python=3.11.5 -y
         conda activate venv_fpl_player_points
         pip install -r requirements.txt
 
@@ -34,7 +33,7 @@ jobs:
     - name: Run ML pipeline
       run: |
         conda activate venv_fpl_player_points
-        python main.py --part all --sample_fraction_grid_data 0.3 --n_random_hyperparameters 20 --run_grids --run_final_models
+        python main.py --part all --sample_fraction_grid_data 0.3 --n_random_hyperparameters 20 --run_grids --run_final_models --save_to_mlflow
 
     # Upload predictions.csv as an artifact
     - name: Upload predictions
