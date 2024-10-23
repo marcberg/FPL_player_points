@@ -1,0 +1,43 @@
+name: ML Scheduled Run
+
+on:
+  schedule:
+    # Runs every Thursday at 6 AM (Sweden Time, which is UTC+2 during daylight saving)
+    - cron: '0 4 * * 4'
+
+jobs:
+  run-ml:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Checkout the repository
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # Set up conda
+    - name: Set up Miniconda
+      uses: conda-incubator/setup-miniconda@v2
+      with:
+        python-version: 3.11
+        environment-file: environment.yml
+        activate-environment: venv_fpl_player_points
+        auto-update-conda: true
+
+    # Install dependencies from requirements.txt
+    - name: Install dependencies
+      run: |
+        conda activate venv_fpl_player_points
+        pip install -r requirements.txt
+
+    # Run your script
+    - name: Run ML pipeline
+      run: |
+        conda activate venv_fpl_player_points
+        python main.py --part all --sample_fraction_grid_data 0.3 --n_random_hyperparameters 20 --run_grids --run_final_models --save_to_mlflow
+
+    # Upload predictions.csv as an artifact
+    - name: Upload predictions
+      uses: actions/upload-artifact@v3
+      with:
+        name: predictions
+        path: artifacts/ml_results/predictions.csv
