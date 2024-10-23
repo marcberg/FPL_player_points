@@ -22,16 +22,25 @@ jobs:
         python-version: 3.11
         auto-update-conda: true
 
+    # Initialize Conda before using 'conda activate'
+    - name: Initialize Conda
+      shell: bash -l {0}
+      run: |
+        source ~/miniconda/etc/profile.d/conda.sh  # Correct path to conda.sh
+        conda activate base  # Activate base environment
+
     # Install dependencies from requirements.txt
     - name: Install dependencies
       run: |
         conda create --name venv_fpl_player_points python=3.11.5 -y
+        source ~/miniconda/etc/profile.d/conda.sh  # Source again for the new environment
         conda activate venv_fpl_player_points
         pip install -r requirements.txt
 
     # Run your script
     - name: Run ML pipeline
       run: |
+        source ~/miniconda/etc/profile.d/conda.sh
         conda activate venv_fpl_player_points
         python main.py --part all --sample_fraction_grid_data 0.3 --n_random_hyperparameters 20 --run_grids --run_final_models --save_to_mlflow
 
