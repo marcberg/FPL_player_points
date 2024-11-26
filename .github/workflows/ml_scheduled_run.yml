@@ -11,6 +11,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    # Stop workflow after 25 May 2025
+    - name: Check end date
+      run: |
+        current_date=$(date -u +"%Y-%m-%d")
+        end_date="2025-05-25"
+        if [[ "$current_date" > "$end_date" ]]; then
+          echo "The workflow has reached its end date and will no longer run."
+          exit 0
+        fi
+
     # Checkout the repository
     - name: Checkout code
       uses: actions/checkout@v3
@@ -39,3 +49,4 @@ jobs:
       with:
         name: predictions
         path: artifacts/ml_results/predictions.csv
+        
