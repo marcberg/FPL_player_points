@@ -33,7 +33,8 @@ def preprocess_data(spark, fraction=1.0):
     df_train = data.filter((f.col("data") == "train") & f.col("next_game_home").isNotNull()).toPandas()
 
     target_column = 'target'  # Replace with your target column
-    X = df_train.drop(columns=[target_column, "kickoff_time", "player_id", "playername", "next_kickoff_time", "data"])
+    drop_columns = [target_column, "kickoff_time", "player_id", "playername", "next_kickoff_time", "data", "value", "selected"]
+    X = df_train.drop(columns=drop_columns)
     y = df_train[target_column]
 
     # score
