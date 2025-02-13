@@ -45,7 +45,7 @@ jobs:
 
     # Upload predictions.csv as an artifact
     - name: Upload predictions
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: predictions
         path: artifacts/ml_results/predictions.csv
